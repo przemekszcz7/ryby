@@ -4,16 +4,13 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
-import { Phone, ArrowRight, Check, Menu, X } from 'lucide-react';
+import { Phone, ArrowRight, Check, Menu, X, Facebook } from 'lucide-react';
 import { owoceMorzaList, rybyFiletowaneList } from './data';
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const scrollRef = useRef<number>(0);
-
-  // References for revealing content on scroll
-  const revealedRefs = useRef<(HTMLDivElement | HTMLElement | null)[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,6 +29,26 @@ export default function App() {
 
   // IntersectionObserver for scroll-reveal animations
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const els = document.querySelectorAll('.reveal-el');
+
+    if (!('IntersectionObserver' in window)) {
+      // Graceful fallback: immediately reveal all elements
+      els.forEach((el) => {
+        el.classList.add('visible');
+        if (el.id === 'cennik') {
+          const rows = el.querySelectorAll('.item-row');
+          rows.forEach((row) => {
+            const htmlRow = row as HTMLElement;
+            htmlRow.style.opacity = '1';
+            htmlRow.style.transform = 'translateY(0)';
+          });
+        }
+      });
+      return;
+    }
+
     const observerOptions = {
       threshold: 0.1,
       rootMargin: "0px 0px -50px 0px"
@@ -62,18 +79,12 @@ export default function App() {
       });
     }, observerOptions);
 
-    revealedRefs.current.forEach((el) => {
-      if (el) observer.observe(el);
+    els.forEach((el) => {
+      observer.observe(el);
     });
 
     return () => observer.disconnect();
   }, []);
-
-  const addToRefs = (el: HTMLDivElement | HTMLElement | null) => {
-    if (el && !revealedRefs.current.includes(el)) {
-      revealedRefs.current.push(el);
-    }
-  };
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -177,7 +188,7 @@ export default function App() {
             Warszawa i okolice · Dostawa następnego dnia
           </span>
           <hr className="w-16 border-t-2 border-teal-accent mx-auto my-[18px]" />
-          <h1 className="font-display font-extrabold text-[clamp(2.5rem,7vw,5.5rem)] text-white tracking-[-0.03em] leading-[0.92] mb-6">
+          <h1 className="font-display font-extrabold text-[clamp(2rem,5vw,3.5rem)] text-white tracking-[-0.02em] leading-[1.1] mb-6">
             Ryby i owoce morza<br />
             prosto do Twoich <span className="font-sans font-light text-white/50">drzwi.</span>
           </h1>
@@ -217,7 +228,6 @@ export default function App() {
       {/* ABOUT SECTION */}
       <section 
         id="o-nas" 
-        ref={addToRefs} 
         className="section reveal-el bg-white border-b border-border-color py-24 px-6"
       >
         <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-[55%_45%] gap-[72px] items-start">
@@ -277,7 +287,7 @@ export default function App() {
               rel="noopener noreferrer" 
               className="inline-flex items-center gap-1.5 font-sans font-medium text-[0.875rem] text-teal-accent mt-5 hover:text-teal-light hover:underline underline-offset-4"
             >
-              Facebook <i className="fa-brands fa-facebook"></i> →
+              Facebook <Facebook className="w-4 h-4 text-[#1877F2] inline-block" /> →
             </a>
           </div>
 
@@ -287,7 +297,6 @@ export default function App() {
       {/* CENNIK SECTION */}
       <section 
         id="cennik" 
-        ref={addToRefs} 
         className="section reveal-el bg-page-bg py-24 px-6"
       >
         <div className="max-w-[1100px] mx-auto">
@@ -378,7 +387,6 @@ export default function App() {
       {/* REVIEW SECTION */}
       <section 
         id="opinie" 
-        ref={addToRefs} 
         className="section reveal-el bg-navy py-24 px-6 text-center"
       >
         <div className="max-w-[1100px] mx-auto">
@@ -410,7 +418,7 @@ export default function App() {
             rel="noopener noreferrer" 
             className="inline-block text-center font-sans font-medium text-[0.9rem] tracking-[0.15em] uppercase text-teal-accent hover:text-teal-light"
           >
-            WIĘCEJ OPINII NA FACEBOOKU <i className="fa-brands fa-facebook ml-1"></i> →
+            WIĘCEJ OPINII NA FACEBOOKU <Facebook className="w-4 h-4 ml-1.5 text-teal-accent inline-block" /> →
           </a>
         </div>
       </section>
@@ -418,7 +426,6 @@ export default function App() {
       {/* CONTACT SECTION */}
       <section 
         id="kontakt" 
-        ref={addToRefs} 
         className="section reveal-el bg-white border-t border-border-color py-24 px-6"
       >
         <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
@@ -463,7 +470,7 @@ export default function App() {
                   rel="noopener noreferrer" 
                   className="font-sans font-medium text-teal-accent hover:text-teal-light text-[1rem] flex items-center gap-1"
                 >
-                  Ryby Dostawa Do Domu <i className="fa-brands fa-facebook"></i> →
+                  Ryby Dostawa Do Domu <Facebook className="w-4 h-4 text-[#1877F2] inline-block" /> →
                 </a>
               </div>
             </div>
