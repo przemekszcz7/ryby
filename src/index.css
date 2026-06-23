@@ -1,1 +1,59 @@
 @import "tailwindcss";
+
+@theme {
+  --color-navy: #0A2E4A;
+  --color-navy-mid: #1A4D6E;
+  --color-teal-accent: #0A8C6E;
+  --color-teal-light: #12A882;
+  --color-page-bg: #F4F8FA;
+  --color-surface: #FFFFFF;
+  --color-surface-tint: #EEF4F8;
+  --color-text-primary: #0D1F2E;
+  --color-text-secondary: #3A5468;
+  --color-text-muted: #7A92A4;
+  --color-border-color: #D0DDE6;
+  --color-price-color: #0A8C6E;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Syne', sans-serif;
+}
+
+:root {
+  --navy: #0A2E4A;
+  --navy-mid: #1A4D6E;
+  --teal: #0A8C6E;
+  --teal-light: #12A882;
+  --page: #F4F8FA;
+  --surface: #FFFFFF;
+  --tinted: #EEF4F8;
+  --border: #D0DDE6;
+  --text: #0D1F2E;
+  --text-2: #3A5468;
+  --muted: #7A92A4;
+  --price: #0A8C6E;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--page);
+  color: var(--text-2);
+  line-height: 1.72;
+  overflow-x: hidden;
+}
+
+/* Tabular numbers util */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reveal transition classes */
+.reveal-el {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-el.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
