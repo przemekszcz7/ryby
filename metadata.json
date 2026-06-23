@@ -1,0 +1,6 @@
+{
+  "name": "Ryby Dostawa Do Domu",
+  "description": "Dostawa świeżych ryb i owoców morza do domu w Warszawie i okolicach. 28 produktów w cenniku. Dostawa następnego dnia. Tel: 574 442 660",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
